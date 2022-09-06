@@ -140,51 +140,69 @@ public class Test {
 				}
 				if (chekcing) {
 					deleteSet.add(pattern);
+					System.out.println(pattern);
 					StringBuilder lastSb = new StringBuilder();
+					StringBuilder tempSb = new StringBuilder();
 					boolean check = false;
+					int checkCount = 0;
 					for (int i = 0; i < pattern.length(); i++) {
 						
 						if (pattern.charAt(i) != '0') {
 							lastSb.append(pattern.charAt(i));
 							check = true;
 							exist = true;
+							checkCount = 0;
 						}
 						
 						if (check) {
+							
 							if (pattern.charAt(i) == '0') {
-								boolean isEqual = false;
-								for (String str : patternSet) {
-									if (str.equals(lastSb.toString())) {
-										isEqual = true;
-									}
-								}
-								
-								if (isEqual) {
-									lastSb.setLength(0);
+								checkCount++;
+								lastSb.append('0');
+//								boolean isEqual = false;
+//								for (String str : patternSet) {
+//									if (str.equals(lastSb.toString())) {
+//										isEqual = true;
+//									}
+//								}
+//								
+//								if (isEqual) {
+//									lastSb.setLength(0);
+//									check = false;
+//									exist = false;
+//								}else {
+//									lastSb.append('0');
+//									checkCount++;
+//								}
+//								
+								if (checkCount == 4) {
+									lastSb.delete(lastSb.length()-4, lastSb.length());
+									tempSet.add(lastSb.toString());
 									check = false;
 									exist = false;
-								}else {
-									lastSb.append('0');
+									lastSb.setLength(0);
+									checkCount = 0;
 								}
+								
 							}
 						}
 					}
-					
+				
 					if (exist) {
 						tempSet.add(lastSb.toString());
 					}
 				}
 				
 			}
-			
+			System.out.println(tempSet);
 			for (String temp : tempSet) {
 				patternSet.add(temp);
 			}
 			
-			for (String delete : tempSet) {
+			for (String delete : deleteSet) {
 				patternSet.remove(delete);
 			}
-			
+			System.out.println(patternSet);
 			for (String hexaCode : patternSet) {
 				StringBuilder binarySb = new StringBuilder();
 
